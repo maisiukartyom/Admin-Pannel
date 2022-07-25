@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Users";
+
+}
+<h1 style="margin-top: 30px">@ViewData["Title"]</h1>
+
+@model IEnumerable<User>
+
+@{
+    
+}
+<script>
+    
+    function checkAll(checked){
+        console.log(checked)
+        var users = document.querySelectorAll('[id=users]')
+        for (var i = 0; i < users.length; i++){
+            console.log(users[i].value);
+            if (checked){
+                if (users[i].checked === false){
+                    users[i].checked = true
+                    users[i].name = "usernames"
+                }
+            }
+            else{
+                if (users[i].checked){
+                    users[i].checked = false;
+                    users[i].name = ""
+                }
+            }    
+        }
+    }
+    function register(myvalue){
+        var user = document.querySelector(`[value=${myvalue}]`)
+        console.log(user.value)
+        
+        if (user.checked){
+            user.name="usernames"
+        }
+        else{
+            user.name=""
+        }
+    }
+</script>
+
+<form method="post">
+
+
+    <div class="w-200 btn-group" role="group">
+      <button type="submit" asp-action="DeleteUser" class="btn btn-primary btn-sm"><i class="bi bi-trash-fill"></i> Delete</button>
+      <button type="submit" asp-action="BanUser" class="btn btn-primary btn-sm"><i class="bi bi-shield-lock"></i> Ban</button>
+      <button type="submit" asp-action="DeBanUser" class="btn btn-primary btn-sm"><i class="bi bi-shield"></i> Deban</button>
+
+    </div>
+<table class="table table-bordered table-strped" style="width:100%">
+        <thread>
+            <tr>
+                <th>
+                    <input class="form-check-input" onclick="checkAll(this.checked)" type="checkbox" value="" id="All"> 
+                </th>
+                <th>
+                    UserName
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Registered
+                </th>
+                <th>
+                    Last login
+                </th>
+                <th>
+                    isBanned
+                </th>
+            </tr>
+        </thread>
+        <tbody>
+            @foreach(var obj in Model)
+            {
+                <tr>
+                    <td width="1%">
+                        <input class="form-check-input" onclick="register(this.value)" type="checkbox" name="" value="@obj.UserName" id="users">
+                    </td>
+                    <td width="10%">
+                        @obj.UserName
+                    </td>
+                    <td width="25%">
+                        @obj.Email
+                    </td>
+                    <td width="20%">
+                        @obj.Registered
+                    </td>
+                    <td width="20%">
+                        @obj.LastLogin
+                    </td>
+                    <td width="5%">
+                        @obj.isBanned
+                    </td>
+                
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
